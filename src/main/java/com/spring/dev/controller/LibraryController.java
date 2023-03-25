@@ -4,6 +4,8 @@ import com.spring.dev.dbEntity.LibraryDao;
 import com.spring.dev.entities.AddBookResponse;
 import com.spring.dev.service.LibraryService;
 import com.spring.dev.utility.LibraryRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,13 +26,17 @@ public class LibraryController {
     @Autowired
     LibraryService libraryService;
 
+    public static final Logger logger= LoggerFactory.getLogger(LibraryController.class);
+
     @PostMapping("/api/addBook")
     public ResponseEntity addBookInLibrary(@RequestBody LibraryDao libraryDao){
         String id= libraryService.generateId(libraryDao.getIsbn(),libraryDao.getAisle());
+        logger.info("Meesage");
         HttpHeaders httpHeaders= new HttpHeaders();
         httpHeaders.add("UniqueId",libraryDao.getIsbn()+"Tushar$");
         HttpStatus httpStatus;
         if(!libraryService.checkIfBookAlreadyExist(id)){
+            logger.info("Meesage");
             libraryDao.setId(id);
             libraryRepository.save(libraryDao);
             addBookResponse=addBookResponse.successMessage(id);
