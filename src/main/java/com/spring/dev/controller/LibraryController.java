@@ -59,4 +59,9 @@ public class LibraryController {
     public List<LibraryDao> getAllBooks(){
         return libraryRepository.findAll();
     }
+
+    @GetMapping("api/getBookByAuthor")
+    public List<LibraryDao> getBooksByAuthor(@RequestParam(value="authorName") String authorName ){
+        return libraryRepository.findBooksByAuthor(authorName);
+    }
 }
