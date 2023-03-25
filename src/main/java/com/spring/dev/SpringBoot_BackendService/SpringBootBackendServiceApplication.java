@@ -15,20 +15,20 @@ import java.util.List;
 @SpringBootApplication(scanBasePackages = {"com.spring.dev"})
 @EnableJpaRepositories(basePackages = {"com.spring.dev.utility"})
 @ComponentScan(basePackages = { "com.*" }) @EntityScan("com.*")
-public class SpringBootBackendServiceApplication implements CommandLineRunner {
+public class SpringBootBackendServiceApplication {
 
-	@Autowired
-	LibraryRepository libraryRepository;
+	/*@Autowired
+	LibraryRepository libraryRepository;*/
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootBackendServiceApplication.class, args);
 	}
 
-	@Override
+	/*@Override
 	public void run(String[] args){
 
 		List<LibraryDao> libraryDao =libraryRepository.findAll();
 		System.out.println(libraryDao.get(0).getAuthor());
-	}
+	}*/
 
 }
