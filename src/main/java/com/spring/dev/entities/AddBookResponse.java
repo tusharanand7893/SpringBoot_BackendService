@@ -25,4 +25,11 @@ public class AddBookResponse {
         addBookResponse.setMessage("Book with id "+id+" Already present");
         return addBookResponse;
     }
+
+    public AddBookResponse bookUpdatedSuccessfully(String id){
+        AddBookResponse addBookResponse= new AddBookResponse();
+        addBookResponse.setMessage("Book Updated Successfully");
+        addBookResponse.setId(id);
+        return addBookResponse;
+    }
 }

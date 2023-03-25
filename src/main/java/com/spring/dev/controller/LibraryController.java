@@ -4,7 +4,6 @@ import com.spring.dev.dbEntity.LibraryDao;
 import com.spring.dev.entities.AddBookResponse;
 import com.spring.dev.service.LibraryService;
 import com.spring.dev.utility.LibraryRepository;
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -55,13 +54,42 @@ public class LibraryController {
         }
     }
 
-    @GetMapping("api/getAllBooks")
+    @GetMapping("/api/getAllBooks")
     public List<LibraryDao> getAllBooks(){
         return libraryRepository.findAll();
     }
 
-    @GetMapping("api/getBookByAuthor")
+    @GetMapping("/api/getBookByAuthor")
     public List<LibraryDao> getBooksByAuthor(@RequestParam(value="authorName") String authorName ){
         return libraryRepository.findBooksByAuthor(authorName);
     }
+
+    @PutMapping("/api/updateBookById/{id}")
+    public ResponseEntity<LibraryDao> updateBookById(@PathVariable(value = "id") String id, @RequestBody LibraryDao libraryDao){
+     try{
+         LibraryDao existingBook=libraryRepository.findById(id).get();
+         existingBook.setBookName(libraryDao.getBookName());
+         existingBook.setAuthor(libraryDao.getAuthor());
+         libraryRepository.save(existingBook);
+         return new ResponseEntity<LibraryDao>(existingBook,HttpStatus.CREATED);
+     }catch (Exception e){
+         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+     }
+    }
+
+    @DeleteMapping("/api/deleteBookById")
+    public ResponseEntity<String> deleteBookById(@RequestBody LibraryDao libraryDao){
+           if( libraryService.checkIfBookAlreadyExist(libraryDao.getId())){
+               LibraryDao book = libraryRepository.findById(libraryDao.getId()).get();
+               libraryRepository.delete(book);
+               return new ResponseEntity<>("Book is Deleted", HttpStatus.OK);
+           }
+            else{
+            return new ResponseEntity<>("No Book Present",HttpStatus.NOT_FOUND);
+        }
+
+
+    }
+
+
 }
