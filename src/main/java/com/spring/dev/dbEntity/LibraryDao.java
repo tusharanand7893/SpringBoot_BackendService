@@ -10,6 +10,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
+@Builder(toBuilder = true)
 @Entity
 @Table(name="lib_store")
 public class LibraryDao {

@@ -14,6 +14,12 @@ public class LibraryService {
     LibraryRepository libraryRepository;
 
     public String generateId(String isbn, int aisle){
+        if(isbn.startsWith("Z")){
+            return "OLD_WRITER"+isbn+aisle;
+        }
+        else if(isbn.startsWith("N")){
+            return "NEW_WRITER"+isbn+aisle;
+        }
         return isbn+aisle;
     }
 
